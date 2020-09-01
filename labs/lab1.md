@@ -137,11 +137,11 @@ Prompt the user for the starting account information.
 
 Prompt the user for the account information. The foilowing information is needed.
 
-Name
+Name +
 : An account nickname. This field is required and cannot be empty.
-Account Number
+Account Number +
 : An account number. This field is required and must be a series of unique numbers.
-Starting Balance
+Starting Balance +
 : The starting balance. This field is a monetary amount and is required. It must be greater than zero.
 
 In all cases perform input validation. If the input is invalid then keep prompting until the user enters the correct information. Show proper error messages.
@@ -216,13 +216,13 @@ Allows the user to add money to the account.
 
 Add an option to the menu to add money to the account. To add money the user must provide some information first.
 
-Amount
+Amount +
 : The amount to add. This value is required and must be greater than zero.
-Description
+Description +
 : The description. This value is required and cannot be empty.
-Category
+Category +
 : The optional category.
-Date
+Date +
 : The entry date. Defaults to the current date. The date must be in the format `MM/dd/yyyy'. 
 
 *Note 1: Refer to `String Parsing` in the book for information on string parsing.*
@@ -250,16 +250,18 @@ Allows the user to remove money from the account.
 
 Add an option to the menu to add expense to the account. To add an expense the user must provide some information first.
 
-Amount
+Amount +
 : The expense amount. The value is required and must be greater than 0.
-Description
+Description +
 : The description. This value is required and cannot be empty.
-Category
+Category +
 : The optional category.
-Date
+Date +
 : The entry date. Defaults to current date. Must be formatted as `MM/dd/yyyy`.
 
 Handle input validation errors. Prompt the user until they enter the correct information.
+
+The expense cannot decrease the balance below zero. If the balance will be below zero then report insufficient funds to the user.
 
 *Note 1: Refer to `String Parsing` in the book for information on string parsing.*
 
@@ -275,6 +277,7 @@ Display a confirmation that the information was added.
 
 1. Users is prompted for each piece of information.
 1. Input validation is performed based upon requirements.
+1. If the expense is more than the balance then report insufficient funds.
 1. Account balance is updated and success message displayed.
 1. User returns to the main menu.
 
