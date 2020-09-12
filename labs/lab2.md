@@ -1,5 +1,5 @@
 # Character Creator (ITSE 1430)
-## Version 1.2
+## Version 1.3
 
 In this lab you will create a program to create a character for a [Role Playing Game](https://en.wikipedia.org/wiki/Role-playing_game) (RPG). This will be a Windows Form application in which a user may create a character for their favorite game.
 
