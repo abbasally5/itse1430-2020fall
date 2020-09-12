@@ -152,9 +152,7 @@ The form will have a `Cancel` button that will cancel the creation. No validatio
 
 Display the roster of characters that have been defined in the main window.
 
-Allow the creation of a roster of characters by using an array to store the characters in the main form. Each time a new character is created it should be added to the array. Set the array size to a value of `100` so it is unlikely the array will fill. 
-
-*Note: You do not have to code for the scenario where the array is full.*
+*Note: For this lab there will only be 1 character in the roster.*
 
 Display the roster in the main form. Use a `ListBox` that displays the character's name. Ensure that the items in the list box are associated with the character data so it can be used in a later story.
 
@@ -265,8 +263,26 @@ If you are using the string approach then use the `Text` property that is alread
 
 A [ListBox](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.listbox?view=netframework-4.7.2) is useful for working with lists of items. While you can use simple strings it is really designed for objects. Like the `ComboBox` it sees everything as `Object`. Use the `DisplayMember` property to determine which property on your class to display. The `SelectedItem` property can be used to get the selected item. Remember to typecast it as needed.
 
-The `ListBox` can support multiple selection as well. This is controlled by the [SelectionMode](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.listbox.selectionmode?view=netframework-4.7.2) property. If using multi-select then use the [SelectedItems](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.listbox.selecteditems?view=netframework-4.7.2#System_Windows_Forms_ListBox_SelectedItems) property instead of `SelectedItem` to get the list of items.
+To bind the single character to the UI use the following code.
 
+```csharp
+private void RefreshRoster ()
+{
+   //ASSUMPTION: Character is the type that represents a character, change to match your code
+   var roster = new BindingList<Character>();
+   
+   //ASSUMPTION: _character is the field where the single character is stored, change to match your code
+   roster.Add(_character);
+   
+   //ASSUMPTION: Control is called _lbRoster for ListBox
+   _lbRoster.DataSource = roster;
+   
+   //ASSUMPTION: Property on Character to display is called Name, change to match your code
+   _lbRoster.DisplayName = "Name";
+}
+```
+
+The `ListBox` can support multiple selection as well. This is controlled by the [SelectionMode](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.listbox.selectionmode?view=netframework-4.7.2) property. If using multi-select then use the [SelectedItems](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.listbox.selecteditems?view=netframework-4.7.2#System_Windows_Forms_ListBox_SelectedItems) property instead of `SelectedItem` to get the list of items.
 
 ## Requirements
 
