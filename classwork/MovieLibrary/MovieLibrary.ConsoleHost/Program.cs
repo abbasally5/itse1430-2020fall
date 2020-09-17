@@ -186,6 +186,8 @@ namespace MovieLibrary
             return ReadInt32(Int32.MinValue);
         }
 
+        //ReadFloat () ReadSingle
+
         //Reads an integer with a minimum value
         static int ReadInt32 ( int minimumValue )
         {
@@ -209,6 +211,7 @@ namespace MovieLibrary
                 //Inline variable declaration - out parameters only
                 //int result;
                 //if (Int32.TryParse(value, out int result) && result >= minimumValue)
+                //if (int.TryParse())
                 if (Int32.TryParse(value, out var result) && result >= minimumValue)
                     return result;
 
@@ -350,6 +353,9 @@ namespace MovieLibrary
 
         #region Demoing Language Features
 
+        static void TakesAnInt ( int hours ) { }
+        //static void TakesAnInt ( Int32 hours ) { }
+
         static void FunWithStrings ()
         {
             //5 characters in it, takes up 10 bytes
@@ -395,9 +401,16 @@ namespace MovieLibrary
 
             // Can be null
             string nullString = null;
+            //String nullString = null;  //Identical
+
+            int hours;
+            //Int32 hours;
+
+            //nullString.ToUpper();  //Will crash
             var areEqual3 = emptyString == nullString;  //false
             //var willCrash = nullString.Length == 0;     //Will crash
             var willNotBeEqual = String.Compare(emptyString, null) == 0;
+            //String.Compare(emptyString, null);  //String formal type
 
             //var isEmpty5 = nullString != null && nullString != "";  //Inefficient
 
