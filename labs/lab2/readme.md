@@ -1,5 +1,5 @@
 # Character Creator (ITSE 1430)
-## Version 1.3
+## Version 1.4
 
 In this lab you will create a program to create a character for a [Role Playing Game](https://en.wikipedia.org/wiki/Role-playing_game) (RPG). This will be a Windows Form application in which a user may create a character for their favorite game.
 
@@ -23,8 +23,7 @@ Create a new Windows Form project to hold your code.
 
 - Open Visual Studio.
 - Create a new project in a new solution.
-    - Select the `Windows Form Application (.NET Framework)` project template.
-    - Ensure the `.NET Framework 4.7.2` option is set.
+    - Select the `Windows Form Application (.NET Core)` project template.    
     - Set the project name to `CharacterCreator.Winforms`.
     - Ensure the location is under your `Labs` folder in your local Git repository.
     - Create the project.
@@ -80,8 +79,7 @@ Add support for collecting character information.
 
 Create the new project.
 - In `Solution Explorer` select `New Project`.
-- Select the `Class Library (.NET Framework)` project template.
-- Ensure the `.NET Framework 4.6.1` option is set.
+- Select the `Class Library (.NET Core)` project template.
 - Set the project name to `CharacterCreator`.
 - Create the project.
 
@@ -115,12 +113,12 @@ Allow the user to create a new character.
 Create a new menu item for `Character\New` with appropriate accelerator keys. The command should be assigned the shortcut key of `Ctrl+N`.
 
 When the command is executed show a form to collect the character information. The form will have the following attributes.
-    - The title will be `Create New Character`.
-    - The form will be centered on the parent.
-    - The form will not be resizable and will appropriately fit the contents.
-    - The form will not have an icon, minimize or maximize buttons.
-    - When validating the user should be able to navigate to other controls but an error should be shown next to the invalid fields. 
-    - Ensure all controls and labels are lined up properly.  
+ - The title will be `Create New Character`.
+ - The form will be centered on the parent.
+ - The form will not be resizable and will appropriately fit the contents.
+ - The form will not have an icon, minimize or maximize buttons.
+ - When validating the user should be able to navigate to other controls but an error should be shown next to the invalid fields. 
+ - Ensure all controls and labels are lined up properly.  
 
 The form will display the fields from the `Character` class defined earlier. For each field.
 - Include an appropriate label.
