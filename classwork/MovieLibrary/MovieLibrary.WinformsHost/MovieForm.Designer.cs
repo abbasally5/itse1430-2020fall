@@ -39,6 +39,8 @@
             this._chkClassic = new System.Windows.Forms.CheckBox();
             this._comboRating = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this._txtReleaseYear = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // _txtName
@@ -73,7 +75,6 @@
             this._txtDescription.Name = "_txtDescription";
             this._txtDescription.Size = new System.Drawing.Size(218, 103);
             this._txtDescription.TabIndex = 3;
-            this._txtDescription.TextChanged += new System.EventHandler(this._txtDescription_TextChanged);
             // 
             // label3
             // 
@@ -93,21 +94,25 @@
             // 
             // _btnCancel
             // 
+            this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Location = new System.Drawing.Point(636, 380);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);
             this._btnCancel.TabIndex = 6;
             this._btnCancel.Text = "Cancel";
             this._btnCancel.UseVisualStyleBackColor = true;
+            this._btnCancel.Click += new System.EventHandler(this.OnCancel);
             // 
             // _btnSave
             // 
+            this._btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._btnSave.Location = new System.Drawing.Point(530, 380);
             this._btnSave.Name = "_btnSave";
             this._btnSave.Size = new System.Drawing.Size(75, 23);
             this._btnSave.TabIndex = 7;
             this._btnSave.Text = "Save";
             this._btnSave.UseVisualStyleBackColor = true;
+            this._btnSave.Click += new System.EventHandler(this.OnSave);
             // 
             // _chkClassic
             // 
@@ -142,11 +147,31 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Rating";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(35, 338);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 15);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Release Year";
+            // 
+            // _txtReleaseYear
+            // 
+            this._txtReleaseYear.Location = new System.Drawing.Point(117, 338);
+            this._txtReleaseYear.Name = "_txtReleaseYear";
+            this._txtReleaseYear.Size = new System.Drawing.Size(100, 23);
+            this._txtReleaseYear.TabIndex = 12;
+            this._txtReleaseYear.Text = "1900";
+            // 
             // MovieForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this._btnCancel;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._txtReleaseYear);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this._comboRating);
             this.Controls.Add(this._chkClassic);
@@ -182,5 +207,7 @@
         private System.Windows.Forms.CheckBox _chkClassic;
         private System.Windows.Forms.ComboBox _comboRating;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox _txtReleaseYear;
     }
 }
