@@ -40,10 +40,12 @@ namespace MovieLibrary.WinformsHost
             // Event += method
             // Event -= method
             toolStripMenuItem5.Click += OnMovieAdd;
+            toolStripMenuItem6.Click += OnMovieEdit;
             toolStripMenuItem7.Click += OnMovieDelete;
         }
 
         //Event - a notification to interested parties that something has happened
+        private Movie _movie;
 
         private void OnMovieAdd ( object sender, EventArgs e )
         {
@@ -57,12 +59,16 @@ namespace MovieLibrary.WinformsHost
 
             //After form is gone
             //TODO: Save movie
+            _movie = form.Movie;
+
             MessageBox.Show("Save successful");
         }
 
         private void OnMovieDelete ( object sender, EventArgs e )
         {
-            //TODO: Verify movie exists
+            //Verify movie exists
+            if (_movie == null)
+                return;
 
             //DialogResult
             switch (MessageBox.Show(this, "Are you sure you want to delete?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
@@ -72,6 +78,30 @@ namespace MovieLibrary.WinformsHost
             };
 
             //TODO: Delete movie
+            _movie = null;
+        }
+
+        private void OnMovieEdit ( object sender, EventArgs e )
+        {
+            if (_movie == null)
+                return;
+
+            //Object creation
+            //  1. Allocate memory for instance, zero initialized
+            //  2. Initialize fields
+            //  3. Constructor (finish initialization)
+            //  4. Return new instance
+            var form = new MovieForm(_movie, "Edit Movie");
+            //form.Movie = _movie;
+
+            var result = form.ShowDialog(this);  //Blocks until form is dismissed
+            if (result == DialogResult.Cancel)
+                return;
+
+            //TODO: Update movie
+            _movie = form.Movie;
+
+            MessageBox.Show("Save successful");
         }
     }
 }
