@@ -5,10 +5,10 @@
 In this lab you will extend your existing character creator program to better use the features available in .NET including generic lists, interfaces and validation.
 This lab will introduce support for multiple characters.
 
-[Story 1](#story-1)
-[Story 2](#story-2)
-[Story 3](#story-3)
-[Story 4](#story-4)
+[Story 1](#story-1) \
+[Story 2](#story-2) \
+[Story 3](#story-3) \
+[Story 4](#story-4) \
 [Story 5](#story-5)
 
 ## Skills Needed
