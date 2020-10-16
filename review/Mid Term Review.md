@@ -1,0 +1,106 @@
+- Section 1
+  - Variables
+	- Purpose
+	- Declaration
+	- Scoping rules
+    - var keyword
+  - Types
+	- Purpose
+	- Primitive types (name, approximate range and usage)
+  - Console IO
+  - Expression
+    - Arithmetic
+	- Logical
+	- Conditional operator
+	- Relational
+  - Control Flow
+    - Do while loop
+	- For loop
+	- Switch statement
+	- While loop
+	- Break statement
+	- Continue statement
+  - Strings
+    - String literals
+	  - String interpolation
+	  - Verbatim strings
+	  - Escape sequences
+	- Functions
+	  - String.Format
+	  - String.Compare
+	  - String.IsNullOrEmpty
+	  - Trim
+  - .NET
+    - Assembly
+	- CLR
+- Section 2
+  - Namespace
+    - Purpose
+	- Declaring
+	- Using directive
+  - Classes
+    - Declaring	
+	- Accessibility
+	- Defining members
+      - Properties
+        - Purpose
+	    - Full property syntax
+	    - Auto property syntax
+	    - Calculated properties
+      - Methods
+        - Purpose
+	    - Parameter passing
+	      - Out parameters
+	    - Returning values
+      - Fields
+        - Purpose
+	  - Constructors
+	    - Purpose
+		- Syntax
+		- Constructor chaining
+		- Calling base constructor     	 
+  - Inheritance
+    - Specifying base class
+	- base and this keywords
+	- Overriding virtual members
+  - Windows Forms
+    - Form
+      - Purpose
+      - Text property
+	  - Lifetime
+	    - OnLoad
+		- OnFormClosing
+		- OnFormClosed
+    - Controls
+      - Name property
+      - Text property
+	  - Common Controls (name and purpose)
+        - Label
+        - Button
+        - CheckBox
+        - TextBox	  
+	- Child Forms
+	  - ShowDialog
+	  - DialogResult
+	  - MessageBox
+	- Events
+	  - Purpose
+	  - Click event  
+  - Objects
+    - Object types
+	  - ToString
+    - Reference vs value types
+	  - Assignment
+	  - Equality
+	  - Nullability
+	  - Storage
+	  - Mutability
+	- Type checking
+	  - Type cast
+	  - as operator
+	  - is operator
+- Section 3
+  - Array syntax
+  - Accessing array elements
+  - Array indexing
+  - Length property
