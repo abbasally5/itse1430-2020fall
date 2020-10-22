@@ -4,8 +4,13 @@ using System.Text;
 
 namespace MovieLibrary
 {
+    //Interfaces appear on the same line as base types but ARE NOT base types
+    //MovieDatabase implements IMovieDatabase
+    // A type can implement any # of interfaces
+    // All members on an interface must be public and implemented
+
     /// <summary>Provides the base implementation of a database of movies.</summary>
-    public class MovieDatabase
+    public class MovieDatabase : IMovieDatabase //, IEditableDatabase, IReadableDatabase
     {
         //Default constructor to seed database
         public MovieDatabase ()
@@ -14,7 +19,7 @@ namespace MovieLibrary
             //_movies.Clear();
 
             //Collection initializer syntax
-            var items = new [] { //new Movie[] {
+            var items = new[] { //new Movie[] {
                 new Movie() {
                     Name = "Jaws",
                     ReleaseYear = 1977,
@@ -90,6 +95,9 @@ namespace MovieLibrary
             //};
             //Add(movie, out error);
         }
+
+        //Not on interface
+        public void Foo () { }
 
         public Movie Add ( Movie movie, out string error )
         {
@@ -170,19 +178,34 @@ namespace MovieLibrary
             #endregion
         }
 
-        public Movie[] GetAll ()
+        //Use IEnumerable<T> for readonly lists of items
+        //public Movie[] GetAll ()
+        public IEnumerable<Movie> GetAll ()
         {
             //DONT DO THIS
             //  1. Expose underlying movie items
             //  2. Callers add/remove movies 
             //return _movies;
 
-            var items = new Movie[_movies.Count];
-            var index = 0;
-            foreach (var movie in _movies)
-                items[index++] = CloneMovie(movie);
+            //var items = new Movie[_movies.Count];
+            //var index = 0;
 
-            return items;
+            //Foreach equivalent
+            // var enumerator = _movies.GetEnumerator();
+            // while (enumerator.MoveNext())
+            // { 
+            //    var movie = enumerator.Current;
+            //    S* 
+            // }
+
+            //iterator IEnumerable<T>
+            //  yield return T
+            foreach (var movie in _movies)   // relies on IEnumerator<T>
+                //items[index++] = CloneMovie(movie);
+                yield return CloneMovie(movie);
+                ;
+
+            //return items;
 
             #region Arrays
             //Determine how many movies we're storing

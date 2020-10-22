@@ -65,11 +65,11 @@ namespace MovieLibrary.WinformsHost
         //  Instantiate ::=   new T[Ei]
         //  Index : 0 to Size - 1
         //private Movie[] _movies = new Movie[100];  //0..99
-        private MovieDatabase _movies = new MovieDatabase();
+        private IMovieDatabase _movies = new MovieDatabase();
         //private Movie[] _emptyMovies = new Movie[0];   // empty arrays and nulls to be equivalent so always use empty array instead of null
 
         private void AddMovie ( Movie movie )
-        {
+        {            
             var newMovie = _movies.Add(movie, out var message);
             if (newMovie == null)
             {
