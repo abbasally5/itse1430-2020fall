@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MovieLibrary
@@ -9,11 +10,16 @@ namespace MovieLibrary
     // A type can implement any # of interfaces
     // All members on an interface must be public and implemented
 
+    //Abstract class required if any member is abstract
+    //  1. Cannot be instantiated
+    //  2. Must derive from it
+    //  3. Must implement all abstract members
+
     /// <summary>Provides the base implementation of a database of movies.</summary>
-    public class MovieDatabase : IMovieDatabase //, IEditableDatabase, IReadableDatabase
+    public abstract class MovieDatabase : IMovieDatabase //, IEditableDatabase, IReadableDatabase
     {
         //Default constructor to seed database
-        public MovieDatabase ()
+        protected MovieDatabase ()
         {
             //Not needed here - clears all items from list
             //_movies.Clear();
@@ -101,56 +107,42 @@ namespace MovieLibrary
 
         public Movie Add ( Movie movie, out string error )
         {
-            //TODO: Movie is valid
+            //TODO: Movie is not null
+
+            //Movie is valid
+            var results = new ObjectValidator().TryValidateFullObject(movie);
+            if (results.Count() > 0)
+            {
+                foreach (var result in results)
+                {
+                    error = result.ErrorMessage;
+                    return null;
+                };
+            };
+
             // Movie name is unique
-            error = "";
+            var existing = FindByName(movie.Name);
+            if (existing != null)
+            {
+                error = "Movie must be unique";
+                return null;
+            };
 
-            //Clone so argument can be modified without impacting our array
-            var item = CloneMovie(movie);
+            error = null;
+            return AddCore(movie);
+        }
 
-            //Set a unique ID
-            item.Id = _id++;
+        protected abstract Movie AddCore ( Movie movie );
 
-            //Add movie to array
-            //_movies[index] = item;
-            _movies.Add(item);
+        protected virtual Movie FindByName ( string name )
+        {
+            foreach(var movie in GetAll())
+            {
+                if (String.Compare(movie.Name, name, true) == 0)
+                    return movie;
+            };
 
-            //Set ID on original object and return
-            movie.Id = item.Id;
-            return movie;
-
-            #region Array code 
-            //Find first empty spot in array
-            // for ( EI; EC; EU ) S;
-            //     EI ::= initializer expression (runs once before loop executes)
-            //     EC ::= conditional expression => boolean (executes before loop statement is run, aborts if condition is false
-            //     EU ::= update expression (runs at end of current iteration)
-            // Length -> int (# of rows in the array)
-            //for (var index = 0; index < _movies.Length; ++index) //Array
-            //for (var index = 0; index < _movies.Count; ++index)  //List
-            //{
-            //    // Array element access ::=  V[int]
-            //    //if (_movies[index] == null)
-            //    {
-            //        //Clone so argument can be modified without impacting our array
-            //        var item = CloneMovie(movie);
-
-            //        //Set a unique ID
-            //        item.Id = _id++;
-
-            //        //Add movie to array
-            //        //_movies[index] = item;
-            //        _movies.Add(item);
-
-            //        //Set ID on original object and return
-            //        movie.Id = item.Id;
-            //        return movie;
-            //    };
-            //};
-
-            //error = "No more room";
-            //return null;
-            #endregion
+            return null;
         }
 
         public void Delete ( int id )
@@ -267,36 +259,9 @@ namespace MovieLibrary
             return "";
         }
 
-        private Movie CloneMovie ( Movie movie )
-        {
-            var item = new Movie();
-            item.Id = movie.Id;
-
-            CopyMovie(item, movie);
-
-            return item;
-        }
-
-        private void CopyMovie ( Movie target, Movie source )
-        {
-            target.Name = source.Name;
-            target.Rating = source.Rating;
-            target.ReleaseYear = source.ReleaseYear;
-            target.RunLength = source.RunLength;
-            target.IsClassic = source.IsClassic;
-            target.Description = source.Description;
-        }
-
-        //Only store cloned copies of movies here!!
-        //private Movie[] _movies = new Movie[100];  //0..99
-        private List<Movie> _movies = new List<Movie>();  //Generic list of Movies, use for fields
-        //private Collection<Movie> _temp;                  //Public read-writable lists
-        private int _id = 1;
-
         // Non-generic
         //    ArrayList - list of objects
         // Generic Types
         //    List<T> where T is any type
-
     }
 }

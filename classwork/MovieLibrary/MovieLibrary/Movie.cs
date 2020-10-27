@@ -154,36 +154,36 @@ namespace MovieLibrary
 
         /// <summary>Validates the movie instance.</summary>
         /// <returns>The error message, if any.</returns>
-        public string Validate ( /*Movie this */ )
-        {
-            //this is reference to current instance
-            //rarely needed
-            //var name = this.Name;
+        //public string Validate ( /*Movie this */ )
+        //{
+        //    //this is reference to current instance
+        //    //rarely needed
+        //    //var name = this.Name;
 
-            //Only 2 cases where `this` is needed
-            // 1. scoping issue -> fix the issue
-            //      fields are _id
-            //      locals are id
-            //    ex:
-            //      var Name = "";
-            //      Name = Name;  //WRONG
-            //      this.Name = Name; //CORRECT
-            // 2. passing the entire object to another method (only really valid case)
+        //    //Only 2 cases where `this` is needed
+        //    // 1. scoping issue -> fix the issue
+        //    //      fields are _id
+        //    //      locals are id
+        //    //    ex:
+        //    //      var Name = "";
+        //    //      Name = Name;  //WRONG
+        //    //      this.Name = Name; //CORRECT
+        //    // 2. passing the entire object to another method (only really valid case)
 
-            //Name is required
-            if (String.IsNullOrEmpty(Name)) //this.Name
-                return "Name is required";
+        //    //Name is required
+        //    if (String.IsNullOrEmpty(Name)) //this.Name
+        //        return "Name is required";
 
-            //Run length must be >= 0
-            if (RunLength < 0)
-                return "Run Length must be greater than or equal to 0";
+        //    //Run length must be >= 0
+        //    if (RunLength < 0)
+        //        return "Run Length must be greater than or equal to 0";
 
-            //Release Year must be >= 1900
-            if (ReleaseYear < 1900)
-                return "Release Year must be at least 1900";
+        //    //Release Year must be >= 1900
+        //    if (ReleaseYear < 1900)
+        //        return "Release Year must be at least 1900";
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public override string ToString ()
         {
@@ -192,7 +192,22 @@ namespace MovieLibrary
 
         public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {
-            throw new NotImplementedException();
+            //When you are using the iterator syntax then all the return statements must be yield return
+
+            //Name is required
+            if (String.IsNullOrEmpty(Name)) //this.Name
+                yield return new ValidationResult("Name is required", new[] { nameof(Name) });
+                //Yield returning new validation result with message and string array (collection init syntax) containing a single string with name of Name
+
+            //Run length must be >= 0
+            if (RunLength < 0)
+                yield return new ValidationResult("Run Length must be greater than or equal to 0", new[] { nameof(RunLength) });
+
+            //Release Year must be >= 1900
+            if (ReleaseYear < 1900)
+                yield return new ValidationResult("Release Year must be at least 1900", new[] { nameof(ReleaseYear) });
+
+            //return null;
         }
     }
 
