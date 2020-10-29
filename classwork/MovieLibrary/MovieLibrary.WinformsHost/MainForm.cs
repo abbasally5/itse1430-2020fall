@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
+using MovieLibrary.Memory;
+
 //Hierarchical namesapces
 //namespace MovieLibrary
 //{
@@ -51,7 +53,18 @@ namespace MovieLibrary.WinformsHost
         {
             base.OnLoad(e);
 
-            RefreshUI();
+            int count = RefreshUI();
+            if (count == 0)
+            {
+                //Seed database if empty
+                if (MessageBox.Show(this, "No movies found. Do you want to add some example movies?", "Database Empty", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var seed = new SeedMovieDatabase();
+                    seed.Seed(_movies);
+
+                    RefreshUI();
+                };
+            }; 
         }
 
         private void OnHelpAbout ( object sender, EventArgs e )
@@ -67,7 +80,7 @@ namespace MovieLibrary.WinformsHost
         //  Instantiate ::=   new T[Ei]
         //  Index : 0 to Size - 1
         //private Movie[] _movies = new Movie[100];  //0..99
-        private IMovieDatabase _movies = new MovieDatabase();
+        private IMovieDatabase _movies = new MemoryMovieDatabase();
         //private Movie[] _emptyMovies = new Movie[0];   // empty arrays and nulls to be equivalent so always use empty array instead of null
 
         private void AddMovie ( Movie movie )
@@ -144,13 +157,17 @@ namespace MovieLibrary.WinformsHost
             return _lstMovies.SelectedItem as Movie;            
         }
 
-        private void RefreshUI ()
+        private int RefreshUI ()
         {
-            _lstMovies.DataSource  = _movies.GetAll().ToArray();
+            var items = _movies.GetAll().ToArray();
+
+            _lstMovies.DataSource  = items;
             //_lstMovies.DataSource = null;
             //_lstMovies.DataSource = _movies.GetAll();
 
             //_lstMovies.DisplayMember = nameof(Movie.Name); //"Name"            
+
+            return items.Length;
         }
 
         private void OnMovieAdd ( object sender, EventArgs e )

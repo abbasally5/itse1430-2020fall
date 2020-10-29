@@ -1,13 +1,17 @@
-﻿using System;
+﻿/*
+ * ITSE 1430
+ * Class work
+ */
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MovieLibrary.Memory
 {
-    /// <summary>Provides the base implementation of a database of movies.</summary>
+    /// <summary>Provides an implementation of <see cref="IMovieDatabase"/> using an in-memory list.</summary>
     public class MemoryMovieDatabase : MovieDatabase 
     {
         //public Movie Add ( Movie movie, out string error )
+        /// <inheritdoc />
         protected override Movie AddCore ( Movie movie )
         {
             //Clone so argument can be modified without impacting our array
@@ -58,11 +62,10 @@ namespace MovieLibrary.Memory
             #endregion
         }
 
-        public void Delete ( int id )
+        //public void Delete ( int id )
+        protected override void DeleteCore ( int id )
         {
-            //TODO: Validate Id
-
-            var movie = GetById(id);
+            var movie = FindById(id);
             if (movie != null)
             {
                 //Must use the same instance that is stored in the list so ref equality works
@@ -83,7 +86,8 @@ namespace MovieLibrary.Memory
             #endregion
         }
 
-        public IEnumerable<Movie> GetAll ()
+        //public IEnumerable<Movie> GetAll ()
+        protected override IEnumerable<Movie> GetAllCore ()
         {
             //DONT DO THIS
             //  1. Expose underlying movie items
@@ -105,8 +109,7 @@ namespace MovieLibrary.Memory
             //  yield return T
             foreach (var movie in _movies)   // relies on IEnumerator<T>
                 //items[index++] = CloneMovie(movie);
-                yield return CloneMovie(movie);
-                ;
+                yield return CloneMovie(movie);                
 
             //return items;
 
@@ -117,41 +120,32 @@ namespace MovieLibrary.Memory
             #endregion
         }
 
-        public Movie Get ( int id )
+        //public Movie Get ( int id )
+        protected override Movie GetByIdCore ( int id )
         {
-            var movie = GetById(id);
+            var movie = FindById(id);
 
             //Clone movie if we found it
             return (movie != null) ? CloneMovie(movie) : null;
         }
 
-        private Movie GetById ( int id )
+        /// <inheritdoc />
+        protected override Movie GetByName ( string name )
         {
-            // foreach (var id in array) S
-            //for (var index = 0; index < _movies.Length; ++index)
             foreach (var movie in _movies)
             {
-                //movie == _movies[index]
-                // Restrictions:
-                //   1. movie is readonly   // movie = new Movie();
-                //   2. _movies cannot change, immutable 
-                if (movie?.Id == id)  // null conditional ?. if instance != null access the member                
-                    return movie;
+                if (String.Compare(movie.Name, name, true) == 0)
+                    return CloneMovie(movie);
             };
 
             return null;
         }
 
-        public string Update ( int id, Movie movie )
+        //public string Update ( int id, Movie movie )
+        protected override void UpdateCore ( int id, Movie movie )
         {
-            //TODO: Validate Id
-            // Movie exists
-            var existing = GetById(id);
-            if (existing == null)
-                return "Movie not found";
+            var existing = FindById(id);
 
-            // updated movie is valid
-            // updated movie name is unique
             CopyMovie(existing, movie);
 
             //for (var index = 0; index < _movies.Length; ++index)
@@ -166,21 +160,8 @@ namespace MovieLibrary.Memory
             //        return "";
             //    };
             //};
-
-            return "";
         }
-
-        protected override Movie FindByName ( string name )
-        {
-            foreach (var movie in _movies)
-            {
-                if (String.Compare(movie.Name, name, true) == 0)
-                    return CloneMovie(movie);
-            };
-
-            return null;
-        }
-
+                
         private Movie CloneMovie ( Movie movie )
         {
             var item = new Movie();
@@ -201,7 +182,29 @@ namespace MovieLibrary.Memory
             target.Description = source.Description;
         }
 
+        private Movie FindById ( int id )
+        {
+            // foreach (var id in array) S
+            //for (var index = 0; index < _movies.Length; ++index)
+            foreach (var movie in _movies)
+            {
+                //movie == _movies[index]
+                // Restrictions:
+                //   1. movie is readonly   // movie = new Movie();
+                //   2. _movies cannot change, immutable 
+                if (movie?.Id == id)  // null conditional ?. if instance != null access the member                
+                    return movie;
+            };
+
+            return null;
+        }
+
         private List<Movie> _movies = new List<Movie>();  //Generic list of Movies, use for fields
         private int _id = 1;
+
+        // Non-generic
+        //    ArrayList - list of objects
+        // Generic Types
+        //    List<T> where T is any type
     }
 }
