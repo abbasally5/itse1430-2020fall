@@ -113,7 +113,7 @@ namespace MovieLibrary.WinformsHost
 
             //Using a constant
             //  1. Type name, not instance
-            var nameLength = Movie.MaximumNameLength; //50
+            //var nameLength = Movie.MaximumNameLength; //50
             //var nameLength1 = 50;
 
             var descriptionLength = movie.MaximumDescriptionLength;
@@ -267,7 +267,7 @@ namespace MovieLibrary.WinformsHost
             //   4. null reference types
 
             //int x = null;
-            string s = null;
+            //string s = null;
         }
     }
 }

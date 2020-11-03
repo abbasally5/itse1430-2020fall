@@ -21,11 +21,11 @@ namespace MovieLibrary
     {
         /// <summary>Adds a movie to the database.</summary>
         /// <param name="movie">The movie to add.</param>
-        /// <param name="error">The error message, if any.</param>
         /// <returns>The new movie.</returns>
-        /// error: Movie is invaild
-        /// error: Movie already exists
-        Movie Add ( Movie movie, out string error );
+        /// <exception cref="ArgumentNullException"><paramref name="movie"/> is null.</exception>
+        /// <exception cref="ValidationException"><paramref name="movie"/> is not valid.</exception>
+        /// <exception cref="InvalidOperationException">A movie with the same name already exists.</exception>
+        Movie Add ( Movie movie );
 
         /// <summary>Deletes a movie from the database.</summary>
         /// <param name="id">The movie to delete.</param>
@@ -48,6 +48,6 @@ namespace MovieLibrary
         /// error: Movie does not exist.
         /// error: Movie is not valid.
         /// error: Movie name already exists.
-        string Update ( int id, Movie movie );
+        void Update ( int id, Movie movie );
     }
 }

@@ -41,7 +41,7 @@ namespace MovieLibrary
 
             //TODO: Fix error handling
             foreach (var item in items)
-                database.Add(item, out var error);
+                database.Add(item);
 
             #region Unused code
             //Seed database

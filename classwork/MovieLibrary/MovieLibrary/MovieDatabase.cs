@@ -61,14 +61,23 @@ namespace MovieLibrary
             //    throw new InvalidOperationException("Movie must be unique");
 
             // Throw expression ::= E ?? throw E
-            var existing = GetByName(movie.Name) ?? throw new InvalidOperationException("Movie must be unique");
+            var existing = GetByName(movie.Name);
+            if (existing != null)
+                throw new InvalidOperationException("Movie must be unique");
             //{
             //    error = "Movie must be unique";
             //    return null;
             //};
 
-            //TODO: Generalize errors
-            return AddCore(movie);
+            // Generalize errors
+            try
+            {
+                return AddCore(movie);
+            } catch (Exception e)
+            {
+                //Throwing a new exception
+                throw new InvalidOperationException("Add Failed", e);
+            };
         }
         
         /// <inheritdoc />
@@ -78,8 +87,15 @@ namespace MovieLibrary
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
-            //TODO: Generalize errors
-            DeleteCore(id);
+            //Generalize errors            
+            try
+            {
+                DeleteCore(id);
+            } catch (Exception e)
+            {
+                //Throwing a new exception
+                throw new InvalidOperationException("Delete Failed", e);
+            };
         }
 
         //Use IEnumerable<T> for readonly lists of items
@@ -91,8 +107,15 @@ namespace MovieLibrary
             //object value = null;            
             //value.ToString();
 
-            //TODO: Generalize errors
-            return GetAllCore();
+            // Generalize errors
+            try
+            {
+                return GetAllCore();
+            } catch (Exception e)
+            {
+                //Throwing a new exception
+                throw new InvalidOperationException("GetAll Failed", e);
+            };
         }
 
         /// <inheritdoc />
@@ -102,8 +125,15 @@ namespace MovieLibrary
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
-            //TODO: Generalize errors
-            return GetByIdCore(id);
+            //Generalize errors
+            try
+            {
+                return GetByIdCore(id);
+            } catch (Exception e)
+            {
+                //Throwing a new exception
+                throw new InvalidOperationException("Get Failed", e);
+            };
         }
 
         /// <inheritdoc />
@@ -131,8 +161,15 @@ namespace MovieLibrary
             if (existing != null && existing.Id != id)
                 throw new InvalidOperationException("Movie must be unique");
 
-            //TODO: Generalize errors
-            UpdateCore(id, movie);
+            // Generalize errors            
+            try
+            {
+                UpdateCore(id, movie);
+            } catch (Exception e)
+            {
+                //Throwing a new exception
+                throw new InvalidOperationException("Update Failed", e);
+            };
         }
 
         /// <summary>Adds a movie to the database.</summary>
