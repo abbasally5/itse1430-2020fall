@@ -122,7 +122,8 @@ namespace MovieLibrary.WinformsHost
             //movie.Age = 10;
 
             //TODO: Fix type validate
-            var validationResults = new ObjectValidator().TryValidateFullObject(movie);
+            //var validationResults = new ObjectValidator().TryValidateFullObject(movie);
+            var validationResults = ObjectValidator.TryValidateFullObject(movie);
             if (validationResults.Count() > 0)
             {
                 //TODO: Fix this later using String.Join

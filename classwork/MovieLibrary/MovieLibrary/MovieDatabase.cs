@@ -44,7 +44,7 @@ namespace MovieLibrary
                 throw new ArgumentNullException(nameof(movie));   //Argument is null and it shouldn't be, pretty much all reference types
 
             //Movie is valid
-            new ObjectValidator().ValidateFullObject(movie);
+            ObjectValidator.ValidateFullObject(movie);
             //var results = new ObjectValidator().TryValidateFullObject(movie);
             //if (results.Count() > 0)
             //{
@@ -146,7 +146,8 @@ namespace MovieLibrary
                 throw new ArgumentNullException(nameof(movie));
 
             //Movie is valid
-            new ObjectValidator().ValidateFullObject(movie);
+            //var v = new ObjectValidator();            
+            ObjectValidator.ValidateFullObject(movie);
             //var results = new ObjectValidator().TryValidateFullObject(movie);
             //if (results.Count() > 0)
             //{
