@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MovieLibrary.Sql\MovieLibrary.Sql.csproj" />
     <ProjectReference Include="..\MovieLibrary\MovieLibrary.csproj" />
   </ItemGroup>
 
