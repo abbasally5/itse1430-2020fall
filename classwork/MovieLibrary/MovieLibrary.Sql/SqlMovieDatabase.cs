@@ -130,15 +130,21 @@ namespace MovieLibrary.Sql
                     // Get typed value
                     //   Convert.ToInt32(row[#]) ::= Object to Int32
                     //   row[].ToString() ::= To a string [PREFERRED]
+                    // DBNull.Value - NULL in database
+
+                    // Is Null?
+                    //var isNull = row["ReleaseYear"] == DBNull.Value;                    
+                    //row.IsNull("ReleaseYear");
+
                     yield return new Movie() {
                         Id = Convert.ToInt32(row[0]),
                         Name = row["name"].ToString(),
 
-                        Description = row.Field<string>("description"),
+                        Description = row.IsNull("Description") ? null : row.Field<string>("description"),
                         Rating = row.Field<string>("Rating"),
 
-                        ReleaseYear = row.Field<int>("ReleaseYear"),
-                        RunLength = row.Field<int>("RunLength"),
+                        ReleaseYear = row.IsNull("ReleaseYear") ? 1900 : row.Field<int>("ReleaseYear"),
+                        RunLength = row.IsNull("RunLength") ? 0 : row.Field<int>("RunLength"),
                         IsClassic = row.Field<bool>("IsClassic"),
                     };
                 };
@@ -173,13 +179,16 @@ namespace MovieLibrary.Sql
                             //var ordinal = reader.GetOrdinal("Name");
                             //reader.GetString(ordinal);
 
+                            //int? nullableInt = 10;
+                            //nullableInt = null;
+
                             return new Movie() {
                                 Id = movieId,
                                 Name = reader.GetString(1),
-                                Description = reader.GetString(2),
+                                Description = reader.IsDBNull(2) ? null : reader.GetString(2),
                                 Rating = reader.GetFieldValue<string>(3),
-                                ReleaseYear = reader.GetFieldValue<int>(4),
-                                RunLength = reader.GetFieldValue<int>(5),
+                                ReleaseYear = reader.IsDBNull(4) ? 1900 : reader.GetFieldValue<int>(4),
+                                RunLength = reader.IsDBNull(5) ? 0 : reader.GetFieldValue<int>(5),
                                 IsClassic = reader.GetFieldValue<bool>(6)
                             };
                         };
@@ -194,14 +203,43 @@ namespace MovieLibrary.Sql
         protected override Movie GetByName ( string name )
         {
             var movies = GetAllCore();
-            foreach (var movie in movies)
-            {
-                if (String.Compare(movie.Name, name, true) == 0)
-                    return movie;
-            };
+            //foreach (var movie in movies)
+            //{
+            //    if (String.Compare(movie.Name, name, true) == 0)
+            //        return movie;
+            //};
 
-            return null;
+            //Delegate
+            //PredicateDelegate predicate = MovieHasName;
+
+            //Use an anonymous method
+            //  parameters => expression
+
+            //1. Using delegate
+            //Func<Movie, bool> predicate = movie => MovieHasName(movie, name);
+            //IEnumerable<Movie> filteredMovies = movies.Where(predicate);
+
+            //2. Use directly
+            //var filteedMovies = movies.Where(movie => MovieHasName(movie, name));
+
+            //3. Use without method
+            // Parameters on left provided by Where method call
+            // Expression on right returned by function
+            // () => E
+            // (p1, p2) => E
+            //return movies.Where(movie => String.Compare(movie.Name, name, true) == 0)
+            //             .FirstOrDefault();
+
+            return movies.FirstOrDefault(movie => String.Compare(movie.Name, name, true) == 0);
+
+            //return null;
         }
+
+        //delegate bool PredicateDelegate ( Movie movie, string name );
+        //private bool MovieHasName ( Movie movie, string name )
+        //{
+        //    return String.Compare(movie.Name, name, true) == 0;
+        //}
 
         //public string Update ( int id, Movie movie )
         protected override void UpdateCore ( int id, Movie movie )
@@ -239,6 +277,25 @@ namespace MovieLibrary.Sql
                 command.ExecuteNonQuery();
             };
         }
+
+        // Dataset vs DataReader (buffered vs streamed)
+        // 
+        //  Dataset:
+        //   A: Disconnected from database
+        //   A: Discoverable - column names, types, nullable and relationships
+        //   A: Pre-defined business objects (DataRow)
+        //   A: Modifiable
+        //   D: High memory overhead (< 1K)
+        //  
+        //  Data readers:
+        //   A: No memory overhead
+        //   A: Fast
+        //   A: Store in your business objects
+        //   D: Must know the data
+        //   D: Cannot modify data
+        //
+        // Use a data reader unless you absolutely need a feature not available in a data reader
+        // Use a dataset when you need very small sets of fixed data where no business logic is needed
 
         private SqlConnection OpenConnection ()
         {

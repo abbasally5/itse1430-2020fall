@@ -203,4 +203,43 @@ namespace MovieLibrary
 
         protected abstract void UpdateCore ( int id, Movie movie );
     }
+
+    // LINQ - Language Integrated Natural Query
+    //   Deferred execution - Next element is not retrieved until needed
+    //      Directory.GetFiles() -> string[] (not)
+    //      Directory.EnumerateFiles() -> IEnumerable<string>  (deferred)
+    //
+    // Common extension methods for IEnumerable<T>
+    //   Conversion (enumerates all the members when called)
+    //     ToArray() -> T[]
+    //     ToList() -> List<T>
+    //   Casting (deferred execution)
+    //     OfType<T>() -> Returns IEnumerable<T> of any items that are compatible with T
+    //     Cast<T>() -> Returns IEnumerable<T> but crashes if anything doesn't match type
+    //   Get item (not deferred) -> T
+    //     First/FirstOrDefault - Gets first item (if any)
+    //     Last/LastOrDefault - Gets last item (if any)
+    //     Single/SingleOrDefault - Gets only item (if any)
+    //  Query -> IEnumerable<T> (replaces foreach)
+    //     Where(Func<T, bool>) -> IEnumerable<T>
+    //     OrderBy(Func<T, member>) -> IEnumerable<T> ordered by member
+    //     Select<K>(Func<T, K>) -> IEnumerable<T> 
+    //     GroupBy() -> grouped IEnumerable<T>
+    //     Join() -> IEnumerable<?>
+
+    // Delegate (function object, functor)
+    //   Treat a function as data 
+    //  Action => void fx ()
+    //  Action<T> => void fx ( T )
+    //  Action<T1, T2> => void fx ( T1, T2 )
+    //  Func<T> => T fx ()
+    //  Func<T, R> => R fx (T)
+    //  Func<T1, T2, R> => R fx (T1, T2)
+    //  
+    // Lambda expression / anonymous methods
+    //    Method that has no name
+    //    parameters => expression
+    //    parameters => { statements* }
+    //    parameter types are inferred, cannot use ref or out
+    //    If you need more than 1 parameter or no parameters use empty parens
 }

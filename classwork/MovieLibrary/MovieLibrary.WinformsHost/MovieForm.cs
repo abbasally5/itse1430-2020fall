@@ -63,7 +63,7 @@ namespace MovieLibrary.WinformsHost
             {
                 _txtName.Text = Movie.Name;
                 _txtDescription.Text = Movie.Description;
-                _comboRating.SelectedText = Movie.Rating;
+                _comboRating.Text = Movie.Rating;
                 _chkClassic.Checked = Movie.IsClassic;
                 _txtRunLength.Text = Movie.RunLength.ToString();
                 _txtReleaseYear.Text = Movie.ReleaseYear.ToString();
@@ -105,7 +105,7 @@ namespace MovieLibrary.WinformsHost
             var movie = new Movie();
             movie.Name = _txtName.Text;
             movie.Description = _txtDescription.Text;
-            movie.Rating = _comboRating.SelectedText;
+            movie.Rating = _comboRating.Text; //SelectedText
             movie.IsClassic = _chkClassic.Checked;
 
             movie.RunLength = ReadAsInt32(_txtRunLength);  //this.ReadAsInt32

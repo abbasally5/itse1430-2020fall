@@ -176,11 +176,14 @@ namespace MovieLibrary.WinformsHost
             //   1. Open type and add new instance method - only works if you own the type
             //   2. Inherit from type - if base type allows inheritance and you are OK using the derived type
             //   3. Extension method - works with any type
-            System.Collections.Generic.IEnumerable<Movie> movies = _movies.GetAll();
+            var items = _movies.GetAll()
+                               .OrderBy(x => x.Name).ThenBy(x => x.ReleaseYear)
+                               .Select(x => x)  //Transform
+                               .ToArray();
 
             // Calling an extension method
             //   1. Just like an instance method
-            var items = movies.ToArray();
+            //var items = movies.ToArray();
 
             _lstMovies.DataSource  = items;
             //_lstMovies.DataSource = null;
