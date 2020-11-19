@@ -59,7 +59,8 @@ namespace MovieLibrary
         //    3. Allowed to have different "readonly" values for each instance
         //    4. Is not baked into source code
         public readonly int MaximumDescriptionLength = 200;
-                                        
+
+        //Calculated property with expression body simplifies to one line
         //Not a field. because:
         //  1. Can not write 
         //  2. Calculated        
@@ -70,18 +71,20 @@ namespace MovieLibrary
         //  2. Complex syntax compared to fields
         //  3. Get/Set is in name
         //public int GetAge () { }
-        public int Age
-        {
-            //Read only property
-            //Calculated property
-            get { return DateTime.Now.Year - ReleaseYear; }
-            //set { }
-        }
+        //public int Age
+        //{
+        //    //Read only property
+        //    //Calculated property
+        //    get => DateTime.Now.Year - ReleaseYear;
+        //    //set { }
+        //}
+        public int Age => DateTime.Now.Year - ReleaseYear;
+        //public int Age = DateTime.Now.Year - ReleaseYear; //a field
 
         // Mixed accessibility - using a different eaccess on either getter or setter
         //   1. Only 1 method can have access modifier
         //   2. Always more restrictive
-        public int Id { get; set; } 
+        public int Id { get; set; }
 
         // Properties - Methods that have field-like syntax
         //   full-property ::= [access] T identifier { [getter] [setter]  }
@@ -89,46 +92,52 @@ namespace MovieLibrary
         //   setter ::= set { S* }
         //   auto-property ::= [access] T identifier { get; set; }
         // Properties returning arrays or strings should not return null
-        
+
         /// <summary>Gets or sets the name of the movie.</summary>
         public string Name
         {
-            //getter: T get_Name ()
-            get
-            {
-                //Null Coalesce - scanning a series of expressions looking for non-NULL
-                //   E1 ?? E2
-                //      if E1 is not null then return E1
-                //      else return E2
-
-                //if (_name == null)
-                //    return "";
-
-                //return _name;
-                return _name ?? "";
-            }
-
-            //setter: void set_Name ( T value )
-            set 
-            {
-                _name = value;
-            }
+            //Expression body
+            get => _name ?? "";            
+            set => _name = value;
         }
+        //public string Name
+        //{
+        //    //getter: T get_Name ()
+        //    get
+        //    {
+        //        //Null Coalesce - scanning a series of expressions looking for non-NULL
+        //        //   E1 ?? E2
+        //        //      if E1 is not null then return E1
+        //        //      else return E2
+
+        //        //if (_name == null)
+        //        //    return "";
+
+        //        //return _name;
+        //        return _name ?? "";
+        //    }
+
+        //    //setter: void set_Name ( T value )
+        //    set 
+        //    {
+        //        _name = value;
+        //    }
+        //}
         private string _name = "";
 
         /// <summary>Gets or sets the movie description.</summary>
         public string Description
         {
-            get { return _description ?? ""; }
-            set { _description = value; }
+            get => _description ?? "";
+            set => _description = value;
         }
         private string _description = "";
 
         /// <summary>Gets or sets the rating.</summary>
         public string Rating
         {
-            get { return _rating ?? ""; }
-            set { _rating = value; }
+            get => _rating ?? "";
+            set => _rating = value;
         }
         private string _rating;
 
@@ -193,11 +202,8 @@ namespace MovieLibrary
         //    return null;
         //}
 
-        public override string ToString ( /* this */ )  //instance.ToString()
-        {
-            return Name;
-        }
-
+        public override string ToString ( /* this */ ) => Name; //instance.ToString()
+        
         public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {
             //When you are using the iterator syntax then all the return statements must be yield return

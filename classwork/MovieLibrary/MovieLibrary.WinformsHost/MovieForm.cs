@@ -127,14 +127,15 @@ namespace MovieLibrary.WinformsHost
             if (validationResults.Count() > 0)
             {
                 //TODO: Fix this later using String.Join
-                var builder = new System.Text.StringBuilder();
-                foreach (var result in validationResults)
-                {
-                    builder.AppendLine(result.ErrorMessage);
-                };
+                //var builder = new System.Text.StringBuilder();
+                //foreach (var result in validationResults)
+                //{
+                //    builder.AppendLine(result.ErrorMessage);
+                //};
+                var error = String.Join(Environment.NewLine, validationResults.Select(x => x.ErrorMessage));
 
                 //Show error message
-                MessageBox.Show(this, builder.ToString(), "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, error, "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DialogResult = DialogResult.None;
                 return;                
             };

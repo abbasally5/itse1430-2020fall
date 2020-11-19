@@ -208,6 +208,7 @@ namespace MovieLibrary.Sql
             //    if (String.Compare(movie.Name, name, true) == 0)
             //        return movie;
             //};
+            //return null;
 
             //Delegate
             //PredicateDelegate predicate = MovieHasName;
@@ -229,10 +230,8 @@ namespace MovieLibrary.Sql
             // (p1, p2) => E
             //return movies.Where(movie => String.Compare(movie.Name, name, true) == 0)
             //             .FirstOrDefault();
-
-            return movies.FirstOrDefault(movie => String.Compare(movie.Name, name, true) == 0);
-
-            //return null;
+            
+            return movies.FirstOrDefault(movie => String.Compare(movie.Name, name, true) == 0);            
         }
 
         //delegate bool PredicateDelegate ( Movie movie, string name );

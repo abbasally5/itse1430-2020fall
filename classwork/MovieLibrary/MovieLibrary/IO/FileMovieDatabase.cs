@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MovieLibrary.IO
 {
@@ -24,21 +25,29 @@ namespace MovieLibrary.IO
             //Find highest ID
             var movies = GetAllCore();
 
-            //HACK: To list
-            var items = new List<Movie>(movies);
+            //movies.Count() - count of items
+            // .Any() -> true if there are any items in set or false otherwise
+            // .Max() -> returns largest item but crashes if set is empty
+            var lastId = movies.Any() ? movies.Max(x => x.Id) : 0;
 
-            var lastId = 0;
-            foreach (var item in items)
-            {
-                if (item.Id > lastId)
-                    lastId = item.Id;
-            };
+            ////HACK: To list
+            //var items = new List<Movie>(movies);
+
+            //var lastId = 0;
+            //foreach (var item in items)
+            //{
+            //    if (item.Id > lastId)
+            //        lastId = item.Id;
+            //};
 
             //Set a unique ID
             movie.Id = ++lastId;
-            items.Add(movie);
 
-            SaveMovies(items);
+            //Add a new item to the existing IEnumerable
+            movies = movies.Union(new[] { movie });
+            //items.Add(movie);
+
+            SaveMovies(movies);
             return movie;
         }
 
@@ -142,16 +151,29 @@ namespace MovieLibrary.IO
         {
             if (File.Exists(_filename))
             {
-                // Read file buffered as an array
-                string[] lines = File.ReadAllLines(_filename);
-                //string rawText = File.ReadAllText(_filename);
+                //// Read file buffered as an array
+                //string[] lines = File.ReadAllLines(_filename);
+                ////string rawText = File.ReadAllText(_filename);
 
-                foreach (var line in lines)
-                {
-                    var movie = LoadMovie(line);
-                    if (movie != null)
-                        yield return movie;
-                };                
+                //foreach (var line in lines)
+                //{
+                //    var movie = LoadMovie(line);
+                //    if (movie != null)
+                //        yield return movie;
+                //};          
+
+                //LINQ extension methods
+                //var movies = File.ReadAllLines(_filename)
+                //                 .Select(x => LoadMovie(x));
+                                
+                //LINQ syntax
+                var movies = from line in File.ReadAllLines(_filename)
+                             where !String.IsNullOrEmpty(line)                             
+                             //orderby member, member
+                             select LoadMovie(line);
+
+                foreach (var movie in movies)
+                    yield return movie;
             };
         }
 
@@ -179,23 +201,31 @@ namespace MovieLibrary.IO
         protected override void UpdateCore ( int id, Movie movie )
         {
             //Remove old movie
-            var items = new List<Movie>(GetAllCore());
-            foreach (var item in items)
+            //var items = new List<Movie>(GetAllCore());
+            //foreach (var item in items)
+            //{
+            //    //Use item not movie
+            //    if (item.Id == id)
+            //    {
+            //        //Must use item here, not movie
+            //        items.Remove(item);
+            //        break;
+            //    };
+            //};
+
+            ////Add new movie
+            //movie.Id = id;
+            //items.Add(movie);
+            var items = GetAllCore();
+            var existing = items.FirstOrDefault(x => x.Id == id);
+            if (existing != null)
             {
-                //Use item not movie
-                if (item.Id == id)
-                {
-                    //Must use item here, not movie
-                    items.Remove(item);
-                    break;
-                };
+                //Exclude the existing movie
+                movie.Id = id;
+                items = items.Except(new[] { existing })
+                             .Union(new[] { movie });                
+                SaveMovies(items);
             };
-
-            //Add new movie
-            movie.Id = id;
-            items.Add(movie);
-
-            SaveMovies(items);
         }
                       
         private Movie FindById ( int id )
