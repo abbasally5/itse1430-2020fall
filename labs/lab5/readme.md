@@ -1,5 +1,5 @@
 # Character Roster (ITSE 1430)
-## Version 1.2
+## Version 1.3
 
 In this lab you will take the previous Character Roster application and port it to the web using MVC.
 
@@ -63,7 +63,8 @@ Implement character listing.
 Implement the controller and view to display the list of characters.
 
 - Add a new controller to manage the characters. Name it accordingly.
-- Define an `Index` action to show the list of characters (using the view models).
+- Define an `Index` action to show the list of characters (using the view models). Include the following - `Name`, `Race`, `Profession`
+- Each character will have the option to `Edit`, `Delete` and view `Details`.
 - Retrieve the data from the database, convert to view models and pass to the underlying view.
 - Generate the view to back the action.
 - Ensure the characters are ordered by name.
